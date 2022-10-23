@@ -7,9 +7,5 @@
   {
     "name": "Boleslav Horak",
     "email": "seweralideas@gmail.com"
-  },
-  "dependencies":
-  {
-    "com.seweralideas.drawers": "git://github.com/Pangamini/seweralideas-drawers"
   }
 }
