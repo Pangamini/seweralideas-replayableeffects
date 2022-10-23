@@ -1,0 +1,15 @@
+{
+  "name": "com.seweralideas.replayableeffects",
+  "version": "0.1.0",
+  "displayName": "Replayable Effects",
+  "description": "Replayable, poolable visual effects",
+  "author":
+  {
+    "name": "Boleslav Horak",
+    "email": "seweralideas@gmail.com"
+  },
+  "dependencies":
+  {
+    "com.seweralideas.drawers": "https://github.com/Pangamini/seweralideas-drawers.git"
+  }
+}
