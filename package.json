@@ -10,6 +10,6 @@
   },
   "dependencies":
   {
-    "com.seweralideas.drawers": "https://github.com/Pangamini/seweralideas-drawers.git"
+    "com.seweralideas.drawers": "git://github.com/Pangamini/seweralideas-drawers"
   }
 }
