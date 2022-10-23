@@ -1,6 +1,7 @@
 ﻿#if !UNITY_SERVER
 using System.Collections;
 using System.Collections.Generic;
+using SeweralIdeas.Drawers;
 using UnityEngine;
 
 namespace SeweralIdeas.ReplayableEffects
@@ -8,7 +9,7 @@ namespace SeweralIdeas.ReplayableEffects
     [AddComponentMenu("SeweralIdeas/ReplayableEffects/ReplayableEffect")]
     public class ReplayableEffect : MonoBehaviour
     {
-        //[Button(new string[]{"Play", "FindComponents"})]
+        [Button(new string[]{"Play", "FindComponents"})]
         public float duration = 1f;
         public Playable[] m_components;
 
