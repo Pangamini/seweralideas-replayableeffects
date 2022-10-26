@@ -1,7 +1,7 @@
 ﻿#if !UNITY_SERVER
 using System.Collections;
 using System.Collections.Generic;
-using SeweralIdeas.Drawers;
+using SeweralIdeas.UnityUtils.Drawers;
 using UnityEngine;
 
 namespace SeweralIdeas.ReplayableEffects

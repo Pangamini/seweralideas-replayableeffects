@@ -1,6 +1,7 @@
 ﻿#if !UNITY_SERVER
+using SeweralIdeas.UnityUtils.Drawers;
+using UnityEditor;
 using UnityEngine;
-using SeweralIdeas.Drawers;
 
 namespace SeweralIdeas.ReplayableEffects
 {
@@ -14,7 +15,7 @@ namespace SeweralIdeas.ReplayableEffects
         private void ConfigureParticles()
         {
 #if UNITY_EDITOR
-            UnityEditor.Undo.RecordObjects(particles, "Undo Configure Particles");
+            Undo.RecordObjects(particles, "Undo Configure Particles");
 #endif
 
             foreach ( var par in particles )
