@@ -8,7 +8,7 @@ namespace SeweralIdeas.ReplayableEffects
     [AddComponentMenu("SeweralIdeas/ReplayableEffects/ReplayableSound")]
     public class ReplayableSound : Playable
     {
-        [Button("Configure audio sources", "ConfigureSources")]
+        [Button("Configure audio sources", nameof(ConfigureSources))]
         public AudioSource source;
         public AudioClipCollection clipCollection;
         [SerializeField] private bool loop;
@@ -23,13 +23,16 @@ namespace SeweralIdeas.ReplayableEffects
         private void ConfigureSources()
         {
 #if UNITY_EDITOR
-            UnityEditor.Undo.RecordObject(source, "Undo Configure Audio Sources");
+            UnityEditor.Undo.RecordObject(source, "Configure Audio Sources");
 #endif
             if ( source.playOnAwake )
             {
                 source.playOnAwake = false;
                 Debug.Log(source.ToString()+" playOnAwake set to false");
             }
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(source);
+#endif
         }
 
         private void Start()

@@ -9,7 +9,7 @@ namespace SeweralIdeas.ReplayableEffects
     [AddComponentMenu("SeweralIdeas/ReplayableEffects/ReplayableEffect")]
     public class ReplayableEffect : MonoBehaviour
     {
-        [Button(new string[]{"Play", "FindComponents"})]
+        [Button(new[]{nameof(Play), nameof(FindComponents)})]
         public float duration = 1f;
         public Playable[] m_components;
 
@@ -28,7 +28,13 @@ namespace SeweralIdeas.ReplayableEffects
 
         public void FindComponents()
         {
+#if UNITY_EDITOR
+            UnityEditor.Undo.RecordObject(this, nameof(FindComponents));
+#endif
             m_components = GetComponentsInChildren<Playable>();
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
         }
 
         void Reset()
