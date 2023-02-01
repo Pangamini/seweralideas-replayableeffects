@@ -1,6 +1,5 @@
 ﻿#if !UNITY_SERVER
 using SeweralIdeas.UnityUtils.Drawers;
-using UnityEditor;
 using UnityEngine;
 
 namespace SeweralIdeas.ReplayableEffects
@@ -8,14 +7,14 @@ namespace SeweralIdeas.ReplayableEffects
     [AddComponentMenu("SeweralIdeas/ReplayableEffects/ReplayableParticles")]
     public class ReplayableParticles : Playable
     {
-        [Button("Configure particles", "ConfigureParticles")]
+        [Button("Configure particles", nameof(ConfigureParticles))]
         public bool dummyVar;
         public ParticleSystem[] particles;
 
         private void ConfigureParticles()
         {
 #if UNITY_EDITOR
-            Undo.RecordObjects(particles, "Undo Configure Particles");
+            UnityEditor.Undo.RecordObjects(particles, "Configure Particles");
 #endif
 
             foreach ( var par in particles )
@@ -33,14 +32,17 @@ namespace SeweralIdeas.ReplayableEffects
                     Debug.Log(parName + " main.loop set to false");
                 }
             }
+#if UNITY_EDITOR
+            foreach(var particle in particles)
+                UnityEditor.EditorUtility.SetDirty(particle);
+#endif
         }
         
         public void Reset()
         {
             particles = GetComponentsInChildren<ParticleSystem>();
         }
-
-        // Update is called once per frame
+        
         public override void Play()
         {
             foreach ( var par in particles )
