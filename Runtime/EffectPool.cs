@@ -2,38 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SeweralIdeas.ReplayableEffects
 {
     [CreateAssetMenu(menuName ="SeweralIdeas/ReplayableEffects/EffectPool")]
     public class EffectPool : ScriptableObject
     {
-        public ReplayableEffect prefab;
-        private Stack<PooledEffect> m_availableStack = new Stack<PooledEffect>();
-        private HashSet<PooledEffect> m_allInstances = new HashSet<PooledEffect>();
+        [FormerlySerializedAs("prefab")]
+        [SerializeField]
+        private ReplayableEffect m_prefab;
+        
+        private readonly Stack<PooledEffect> m_availableStack = new Stack<PooledEffect>();
+        private readonly HashSet<PooledEffect> m_allInstances = new HashSet<PooledEffect>();
         private GameObject m_gameObject;
 
-        public event System.Action onDestroy;
-        /*
-        public List<PooledEffect.State> Serialize()
+        public event System.Action Destroyed;
+
+        public ReplayableEffect Prefab
         {
-            var list = new List<PooledEffect.State>();
-            foreach ( var inst in m_allInstances )
-            {
-                if ( !inst.IsActive() ) continue;
-                list.Add(inst.Serialize());
-            }
-            return list;
+            get => m_prefab;
+            set => m_prefab = value;
         }
-        
-        public void Deserialize( List<PooledEffect.State> data )
-        {
-            foreach ( var state in data )
-            {
-                PlayEffect(state.position, state.rotation, state.time);
-            }
-        }
-        */
+
         public void DestroyAll()
         {
             foreach (var inst in m_allInstances)
@@ -45,12 +36,16 @@ namespace SeweralIdeas.ReplayableEffects
             m_allInstances.Clear();
         }
 
-        public void GetActiveEffects(List<PooledEffect> list)
+        public void GetActiveEffects(ICollection<PooledEffect> list)
         {
             list.Clear();
             foreach ( var inst in m_allInstances )
+            {
                 if ( inst.IsActive() )
+                {
                     list.Add(inst);
+                }
+            }
         }
         
 
@@ -62,7 +57,8 @@ namespace SeweralIdeas.ReplayableEffects
         public void PlayEffect( Vector3 position, Quaternion rotation, float fwd = 0)
         {
 #if UNITY_EDITOR
-            if (!Application.isPlaying) return;
+            if (!Application.isPlaying)
+                return;
             EnsureGoExists();
 #endif
             PooledEffect instance;
@@ -73,7 +69,7 @@ namespace SeweralIdeas.ReplayableEffects
             }
             else
             {
-                var effInstance = Instantiate(prefab, position, rotation, m_gameObject.transform);
+                var effInstance = Instantiate(m_prefab, position, rotation, m_gameObject.transform);
                 instance = effInstance.gameObject.AddComponent<PooledEffect>();
                 instance.effect = effInstance;
                 instance.pool = this;
@@ -106,7 +102,7 @@ namespace SeweralIdeas.ReplayableEffects
             DestroyAll();
             Destroy(m_gameObject);
             m_gameObject = null;
-            onDestroy?.Invoke();
+            Destroyed?.Invoke();
         }
 
         protected void OnDestroy()

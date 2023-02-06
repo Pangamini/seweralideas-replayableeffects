@@ -1,45 +1,49 @@
 ﻿#if !UNITY_SERVER
-using System.Collections;
 using System.Collections.Generic;
-using SeweralIdeas.UnityUtils.Drawers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SeweralIdeas.ReplayableEffects
 {
     [AddComponentMenu("SeweralIdeas/ReplayableEffects/ReplayableEffect")]
     public class ReplayableEffect : MonoBehaviour
     {
-        [Button(new[]{nameof(Play), nameof(FindComponents)})]
-        public float duration = 1f;
-        public Playable[] m_components;
+        [FormerlySerializedAs("duration")]
+        [SerializeField]
+        private float m_duration = 1f;
 
+        private readonly List<EffectComponent> m_components = new();
+
+        internal void AddEffectComponent(EffectComponent effectComponent)
+        {
+            m_components.Add(effectComponent);
+        }
+        
+        internal void RemoveEffectComponent(EffectComponent effectComponent)
+        {
+            m_components.Remove(effectComponent);
+        }
+        
+        public float Duration => m_duration;
+        
         public void Play()
         {
             foreach ( var comp in m_components )
+            {
                 comp.Play();
+            }
         }
         
-        public void Fwd( float deltaTime )
+        public void FastForward( float deltaTime )
         {
-            if ( deltaTime <= 0 ) return;
+            if ( deltaTime <= 0 )
+            {
+                return;
+            }
             foreach ( var comp in m_components )
-                comp.Fwd(deltaTime);
-        }
-
-        public void FindComponents()
-        {
-#if UNITY_EDITOR
-            UnityEditor.Undo.RecordObject(this, nameof(FindComponents));
-#endif
-            m_components = GetComponentsInChildren<Playable>();
-#if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(this);
-#endif
-        }
-
-        void Reset()
-        {
-            FindComponents();
+            {
+                comp.FastForward(deltaTime);
+            }
         }
     }
 }
