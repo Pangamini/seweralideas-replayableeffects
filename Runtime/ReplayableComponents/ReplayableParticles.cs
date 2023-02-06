@@ -1,64 +1,55 @@
 ﻿#if !UNITY_SERVER
-using SeweralIdeas.UnityUtils.Drawers;
 using UnityEngine;
 
 namespace SeweralIdeas.ReplayableEffects
 {
     [AddComponentMenu("SeweralIdeas/ReplayableEffects/ReplayableParticles")]
-    public class ReplayableParticles : Playable
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(ParticleSystem))]
+    
+    public class ReplayableParticles : EffectComponent
     {
-        [Button("Configure particles", nameof(ConfigureParticles))]
-        public bool dummyVar;
-        public ParticleSystem[] particles;
-
+        private ParticleSystem m_particles;
+        
+        protected override void Awake()
+        {
+            m_particles = GetComponent<ParticleSystem>();
+            base.Awake();
+        }
+        
         private void ConfigureParticles()
         {
 #if UNITY_EDITOR
-            UnityEditor.Undo.RecordObjects(particles, "Configure Particles");
+            UnityEditor.Undo.RecordObject(m_particles, "Configure ParticleSystem");
 #endif
 
-            foreach ( var par in particles )
+            var main = m_particles.main;
+            var parName = m_particles.ToString();
+            if ( main.playOnAwake )
             {
-                var main = par.main;
-                var parName = par.ToString();
-                if ( main.playOnAwake )
-                {
-                    main.playOnAwake = false;
-                    Debug.Log(parName + " main.playOnAwake set to false");
-                }
-                if ( main.loop )
-                {
-                    main.loop = false;
-                    Debug.Log(parName + " main.loop set to false");
-                }
+                main.playOnAwake = false;
+                Debug.Log(parName + " main.playOnAwake set to false");
             }
-#if UNITY_EDITOR
-            foreach(var particle in particles)
-                UnityEditor.EditorUtility.SetDirty(particle);
-#endif
-        }
+            if ( main.loop )
+            {
+                main.loop = false;
+                Debug.Log(parName + " main.loop set to false");
+            }
         
-        public void Reset()
-        {
-            particles = GetComponentsInChildren<ParticleSystem>();
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(m_particles);
+#endif
         }
         
         public override void Play()
         {
-            foreach ( var par in particles )
-            {
-                par.Play(false);
-            }
+            m_particles.Play(false);
         }
 
-        public override void Fwd( float deltaTime )
+        public override void FastForward( float deltaTime )
         {
-            foreach ( var par in particles )
-            {
-                par.Simulate(deltaTime, false, false);
-                par.Play(false);
-
-            }
+            m_particles.Simulate(deltaTime, false, false);
+            m_particles.Play(false);
         }
     }
 }

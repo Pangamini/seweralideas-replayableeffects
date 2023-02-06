@@ -38,7 +38,7 @@ namespace SeweralIdeas.ReplayableEffects
 
         private void Update()
         {
-            if ( timePassed >= effect.duration )
+            if ( timePassed >= effect.Duration )
             {
                 Stop();
             }
@@ -64,7 +64,7 @@ namespace SeweralIdeas.ReplayableEffects
         public void Fwd( float deltaTime )
         {
             timePassed += deltaTime;
-            effect.Fwd(deltaTime);
+            effect.FastForward(deltaTime);
         }
     }
 }

@@ -1,31 +1,30 @@
 ﻿#if !UNITY_SERVER
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SeweralIdeas.ReplayableEffects
 {
     [AddComponentMenu("SeweralIdeas/ReplayableEffects/RandomRotation")]
-    public class RandomRotation : Playable
+    [DisallowMultipleComponent]
+    public class RandomRotation : EffectComponent
     {
-        public bool RotateX;
-        public bool RotateY;
-        public bool RotateZ = true;
-
-        // Update is called once per frame
+        [FormerlySerializedAs("RotateX")] [SerializeField] private bool m_rotateX;
+        [FormerlySerializedAs("RotateY")] [SerializeField] private bool m_rotateY;
+        [FormerlySerializedAs("RotateZ")] [SerializeField] private bool m_rotateZ = true;
+        
         public override void Play()
         {
-            var rotateVector = Vector3.zero;
-            if ( RotateX )
-                rotateVector.x = Random.Range(0, 360);
-            if ( RotateY )
-                rotateVector.y = Random.Range(0, 360);
-            if ( RotateZ )
-                rotateVector.z = Random.Range(0, 360);
-            transform.Rotate(rotateVector);
+            var eulerAngles = Vector3.zero;
+            if ( m_rotateX )
+                eulerAngles.x = Random.Range(0, 360);
+            if ( m_rotateY )
+                eulerAngles.y = Random.Range(0, 360);
+            if ( m_rotateZ )
+                eulerAngles.z = Random.Range(0, 360);
+            transform.Rotate(eulerAngles);
         }
 
-        public override void Fwd( float deltaTime )
-        {
-        }
+        public override void FastForward( float deltaTime ) { }
     }
 }
 #endif
