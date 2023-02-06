@@ -5,13 +5,14 @@ using UnityEngine;
 
 namespace SeweralIdeas.ReplayableEffects
 {
-    [AddComponentMenu("SeweralIdeas/ReplayableEffects/PooledEffect")]
     public class PooledEffect : MonoBehaviour
     {
-        public ReplayableEffect effect;
-        public float timePassed;
-        public EffectPool pool;
+        internal ReplayableEffect Effect;
+        internal EffectPool Pool;
+
         private bool m_active;
+        private float timePassed;
+
         /*
         [Serializable]
         public struct State
@@ -38,7 +39,7 @@ namespace SeweralIdeas.ReplayableEffects
 
         private void Update()
         {
-            if ( timePassed >= effect.Duration )
+            if ( timePassed >= Effect.Duration )
             {
                 Stop();
             }
@@ -50,7 +51,7 @@ namespace SeweralIdeas.ReplayableEffects
             if ( !IsActive() ) return;
             gameObject.SetActive(false);
             m_active = false;
-            pool.ReturnEffect(this);
+            Pool.ReturnEffect(this);
         }
 
         public void Play()
@@ -58,13 +59,13 @@ namespace SeweralIdeas.ReplayableEffects
             timePassed = 0;
             gameObject.SetActive(true);
             m_active = true;
-            effect.Play();
+            Effect.Play();
         }
 
         public void Fwd( float deltaTime )
         {
             timePassed += deltaTime;
-            effect.FastForward(deltaTime);
+            Effect.FastForward(deltaTime);
         }
     }
 }

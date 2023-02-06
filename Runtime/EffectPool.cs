@@ -71,8 +71,8 @@ namespace SeweralIdeas.ReplayableEffects
             {
                 var effInstance = Instantiate(m_prefab, position, rotation, m_gameObject.transform);
                 instance = effInstance.gameObject.AddComponent<PooledEffect>();
-                instance.effect = effInstance;
-                instance.pool = this;
+                instance.Effect = effInstance;
+                instance.Pool = this;
                 m_allInstances.Add(instance);
             }
 
