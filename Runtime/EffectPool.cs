@@ -91,7 +91,7 @@ namespace SeweralIdeas.ReplayableEffects
         {
             if (m_gameObject == null)
             {
-                m_gameObject = new GameObject("EffectPool(" + name + ")");
+                m_gameObject = new GameObject($"EffectPool({m_prefab.name})");
                 DontDestroyOnLoad(m_gameObject);
                 m_gameObject.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
             }
