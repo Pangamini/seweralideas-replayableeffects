@@ -1,4 +1,5 @@
 ﻿#if !UNITY_SERVER
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,7 +12,7 @@ namespace SeweralIdeas.ReplayableEffects
         [FormerlySerializedAs("duration")]
         [SerializeField]
         private float m_duration = 1f;
-
+        
         private readonly List<EffectComponent> m_components = new();
 
         internal void AddEffectComponent(EffectComponent effectComponent)
@@ -33,7 +34,7 @@ namespace SeweralIdeas.ReplayableEffects
                 comp.Play();
             }
         }
-        
+
         public void FastForward( float deltaTime )
         {
             if ( deltaTime <= 0 )
