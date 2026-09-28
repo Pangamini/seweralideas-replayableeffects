@@ -46,7 +46,7 @@ namespace SeweralIdeas.ReplayableEffects
             timePassed += Time.deltaTime;
         }
 
-        private void Stop()
+        public void Stop()
         {
             if ( !IsActive() ) return;
             gameObject.SetActive(false);

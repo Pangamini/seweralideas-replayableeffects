@@ -49,16 +49,16 @@ namespace SeweralIdeas.ReplayableEffects
         }
         
 
-        public void PlayEffect( Transform where, float fwd = 0 )
+        public PooledEffect PlayEffect( Transform where, float fwd = 0 )
         {
-            PlayEffect(where.position, where.rotation, fwd);
+            return PlayEffect(where.position, where.rotation, fwd);
         }
 
-        public void PlayEffect( Vector3 position, Quaternion rotation, float fwd = 0)
+        public PooledEffect PlayEffect( Vector3 position, Quaternion rotation, float fwd = 0)
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying)
-                return;
+                return null;
             EnsureGoExists();
 #endif
             PooledEffect instance;
@@ -79,7 +79,7 @@ namespace SeweralIdeas.ReplayableEffects
             instance.Play();
             if ( fwd > 0 )
                 instance.Fwd(fwd);
-
+            return instance;
         }
 
         internal void ReturnEffect( PooledEffect effect )
