@@ -1,8 +1,8 @@
 {
   "name": "com.seweralideas.replayableeffects",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "displayName": "Replayable Effects",
-  "description": "Replayable, poolable visual effects",
+  "description": "Replayable, poolable visual effects (pooled by SeweralIdeas.ObjectPooling from seweralideas-unityutils)",
   "author":
   {
     "name": "Seweral Ideas",

@@ -2,7 +2,8 @@
     "name": "SeweralIdeas.ReplayableEffects",
     "rootNamespace": "SeweralIdeas.ReplayableEffects",
     "references": [
-        "GUID:cf5a3647f2623f044943c7d12af0b6c4"
+        "GUID:cf5a3647f2623f044943c7d12af0b6c4",
+        "SeweralIdeas.ObjectPooling"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
